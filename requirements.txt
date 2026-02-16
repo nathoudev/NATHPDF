@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pypandoc
+python-multipart
+stripe
+sqlalchemy
+alembic
+python-dotenv
+psycopg2-binary  # si tu pars sur PostgreSQL
+aiofiles
+requests

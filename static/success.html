@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Paiement confirmé</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background: #0b1220; color: #e8eefc; }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 28px 18px; }
+    .card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10); border-radius: 14px; padding: 18px; }
+    h1 { margin: 0 0 8px; font-size: 22px; }
+    p { margin: 8px 0; line-height: 1.45; color: rgba(232,238,252,0.85); }
+    .ok { display: inline-flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 10px; background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.35); }
+    .muted { font-size: 13px; color: rgba(232,238,252,0.65); }
+    .row { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-top: 12px; }
+    input { width: 100%; padding: 11px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); color: #e8eefc; outline: none; }
+    button { padding: 11px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.10); color: #e8eefc; cursor: pointer; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .msg { margin-top: 10px; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.05); display: none; }
+    .msg.ok { border-color: rgba(34,197,94,0.35); background: rgba(34,197,94,0.12); }
+    .msg.err { border-color: rgba(239,68,68,0.35); background: rgba(239,68,68,0.12); }
+    .footer { margin-top: 14px; }
+    a { color: #9cc3ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>✅ Paiement confirmé</h1>
+
+      <div class="ok" style="margin-top:10px;">
+        <strong>Merci !</strong>
+        <span class="muted">Votre clé API a été envoyée par email.</span>
+      </div>
+
+      <p style="margin-top:12px;">
+        Si vous ne recevez rien dans les 2–5 minutes :
+        vérifiez vos <strong>spams</strong>, puis utilisez le bouton ci-dessous pour renvoyer la clé.
+      </p>
+
+      <div class="row">
+        <input id="email" type="email" placeholder="Votre email (ex: vous@example.com)" autocomplete="email" />
+        <button id="btn" type="button">Renvoyer ma clé</button>
+      </div>
+
+      <div id="msg" class="msg"></div>
+
+      <div class="footer muted">
+        Docs API : <a href="/docs" target="_blank" rel="noreferrer">/docs</a> ·
+        Retour : <a href="/static/buy.html">Acheter un pack</a>
+        <br />
+        <span>Astuce : pour appeler l’API, vous utiliserez l’en-tête <code>X-API-Key</code>.</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const btn = document.getElementById("btn");
+    const emailInput = document.getElementById("email");
+    const msg = document.getElementById("msg");
+
+    function showMessage(text, kind) {
+      msg.style.display = "block";
+      msg.className = "msg " + (kind || "");
+      msg.textContent = text;
+    }
+
+    function setLoading(loading) {
+      btn.disabled = loading;
+      btn.textContent = loading ? "Envoi..." : "Renvoyer ma clé";
+    }
+
+    btn.addEventListener("click", async () => {
+      const email = (emailInput.value || "").trim().toLowerCase();
+      if (!email) {
+        showMessage("Merci de saisir votre email.", "err");
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const res = await fetch("/account/resend-api-key", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email })
+        });
+
+        // On ne révèle pas si l'email existe ou pas : réponse OK dans tous les cas
+        if (res.ok) {
+          showMessage("✅ Si un compte existe avec cet email, la clé a été renvoyée.", "ok");
+        } else {
+          const data = await res.json().catch(() => ({}));
+          showMessage(data.detail || "Erreur lors de l’envoi. Réessayez.", "err");
+        }
+      } catch (e) {
+        showMessage("Erreur réseau. Vérifiez que le serveur est démarré.", "err");
+      } finally {
+        setLoading(false);
+      }
+    });
+  </script>
+</body>
+</html>

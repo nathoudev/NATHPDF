@@ -1,0 +1,68 @@
+
+
+
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    container_name: pdfproject-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: pdfuser
+      POSTGRES_PASSWORD: pdfpassword
+      POSTGRES_DB: pdfbilling
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pdf_api:
+    build: .
+    container_name: pdfproject-pdf_api
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+
+    # ✅ DEV: code live + reload (pas besoin de rebuild quand tu changes du code)
+    volumes:
+      - .:/app
+
+    command: uvicorn main:app --host 0.0.0.0 --port 8080 --reload
+
+    environment:
+      PYTHONUNBUFFERED: "1"
+      DATABASE_URL: postgresql://pdfuser:pdfpassword@db:5432/pdfbilling
+      
+      DEV_ADMIN_TOKEN: ""
+
+      # Stripe (tu peux laisser des valeurs de test pour l’instant)
+      STRIPE_API_KEY: sk_test_51Sfo7JRLLN2z0XddtJQf3rzUNKHEmLwK3RD42U6Im2QKB9nrZ7fCDRtSCFCtF6RzT1mUYL62mfYKmMn8TTmbXCCZ00mMVNZKrU
+      STRIPE_WEBHOOK_SECRET:  whsec_7df675de981ba92d863e6a3684c836cde6d1ac00251d2f44d144d400df53ebe5
+
+      PUBLIC_BASE_URL: "http://localhost:8080"
+      SMTP_HOST: "smtp.gmail.com"
+      SMTP_PORT: "587"
+      SMTP_USER: "nmelloul88@gmail.com"
+      SMTP_PASSWORD: "fyls wpnm twsz ducz"
+      SMTP_FROM: "Service PDF <nmelloul88@gmail.com>"
+      ENV: "dev"
+
+
+
+      # SMTP (optionnel, si tu n’envoies pas encore d’emails tu peux commenter)
+      # SMTP_HOST: smtp.example.com
+      # SMTP_PORT: "587"
+      # SMTP_USER: user@example.com
+      # SMTP_PASSWORD: motdepasse
+      # SMTP_FROM: "Service PDF <no-reply@tondomaine.com>"
+
+volumes:
+  pgdata:
+
+      # Tu pourras mettre tes vraies clés Stripe ici plus tard :
+
+
+
