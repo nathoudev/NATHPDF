@@ -3,7 +3,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from billing.paypal_service import create_order, get_access_token
-from database import get_db
+from billing.database import get_db
 from models import User, ApiKey
 from utils import generate_api_key
 import requests

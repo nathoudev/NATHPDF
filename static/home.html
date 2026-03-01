@@ -1,0 +1,691 @@
+
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PDFJoy — Convert Files to PDF</title>
+<meta name="description" content="Convert your files to PDF in seconds. Fast, secure, no registration." />
+<link rel="stylesheet" href="styles.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<header class="topbar">
+<div class="container topbar__inner">
+<a class="brand" href="#">
+<span class="brand__logo" aria-hidden="true">🧡</span>
+<span class="brand__name">PDFJoy</span>
+</a>
+
+<nav class="nav">
+<a href="#how">How it works</a>
+<a href="#pricing">Pricing</a>
+<a href="#faq">FAQ</a>
+</nav>
+
+<a class="btn btn--ghost" href="#convert">Start free</a>
+</div>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero">
+<div class="container hero__grid">
+<div class="hero__content">
+<div class="pill">
+<span class="dot"></span>
+3 free conversions • No watermark
+</div>
+
+<h1>Convert your files to PDF in seconds.</h1>
+<p class="lead">
+A bright, simple converter that just works — fast processing, high quality output, and automatic file deletion.
+</p>
+
+<div class="hero__cta">
+<a class="btn btn--primary" href="#convert">Convert now</a>
+<a class="btn btn--secondary" href="#pricing">See pricing</a>
+</div>
+
+<div class="trust">
+<div class="trust__item">
+<span class="trust__icon">⚡</span>
+<span>Instant conversion</span>
+</div>
+<div class="trust__item">
+<span class="trust__icon">🔒</span>
+<span>Secure processing</span>
+</div>
+<div class="trust__item">
+<span class="trust__icon">💎</span>
+<span>High quality PDFs</span>
+</div>
+</div>
+</div>
+
+<!-- CONVERTER CARD (UI mock) -->
+<div class="card card--glow" id="convert">
+<div class="card__top">
+<div class="badge">NEW</div>
+<div class="card__title">Drop your file</div>
+<div class="card__subtitle">DOCX, PNG, JPG, PPTX…</div>
+</div>
+
+<label class="dropzone" for="file">
+<input id="file" type="file" />
+<div class="dropzone__inner">
+<div class="dropzone__icon">📄</div>
+<div class="dropzone__text">
+<strong>Click to upload</strong> or drag & drop
+</div>
+<div class="dropzone__hint">Max size: 25MB</div>
+</div>
+</label>
+
+<button class="btn btn--primary btn--full" type="button">
+Convert to PDF
+</button>
+
+<p class="tiny">
+Files are deleted automatically after processing.
+</p>
+</div>
+</div>
+
+<div class="hero__bg" aria-hidden="true">
+<div class="blob blob--1"></div>
+<div class="blob blob--2"></div>
+<div class="blob blob--3"></div>
+</div>
+</section>
+
+<!-- FEATURES -->
+<section class="section">
+<div class="container">
+<h2 class="section__title">Why people love PDFJoy</h2>
+<p class="section__subtitle">No clutter. No stress. Just convert.</p>
+
+<div class="features">
+<article class="feature">
+<div class="feature__icon">🌈</div>
+<h3>Clean & joyful</h3>
+<p>A bright interface that feels friendly — even when you're in a rush.</p>
+</article>
+
+<article class="feature">
+<div class="feature__icon">🚀</div>
+<h3>Fast processing</h3>
+<p>Optimized for speed so you can download your PDF immediately.</p>
+</article>
+
+<article class="feature">
+<div class="feature__icon">🛡️</div>
+<h3>Privacy first</h3>
+<p>Automatic deletion after conversion. Your files aren’t stored forever.</p>
+</article>
+
+<article class="feature">
+<div class="feature__icon">✨</div>
+<h3>High quality</h3>
+<p>Sharp text and images with clean formatting, no weird artifacts.</p>
+</article>
+</div>
+</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section section--alt" id="how">
+<div class="container">
+<h2 class="section__title">How it works</h2>
+<p class="section__subtitle">Three steps. That's it.</p>
+
+<div class="steps">
+<div class="step">
+<div class="step__num">1</div>
+<h3>Upload</h3>
+<p>Drop your file in the converter.</p>
+</div>
+<div class="step">
+<div class="step__num">2</div>
+<h3>Convert</h3>
+<p>We process it instantly.</p>
+</div>
+<div class="step">
+<div class="step__num">3</div>
+<h3>Download</h3>
+<p>Get a clean PDF, ready to share.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+<div class="container">
+<h2 class="section__title">Simple pricing</h2>
+<p class="section__subtitle">Start free, upgrade only if you need more.</p>
+
+<div class="pricing">
+<div class="price-card">
+<div class="price-card__head">
+<h3>Free</h3>
+<p class="price">$0</p>
+<p class="muted">Perfect to test</p>
+</div>
+<ul class="list">
+<li>3 free conversions</li>
+<li>No watermark</li>
+<li>Standard speed</li>
+</ul>
+<a class="btn btn--secondary btn--full" href="#convert">Try free</a>
+</div>
+
+<div class="price-card price-card--popular">
+<div class="popular">Most popular</div>
+<div class="price-card__head">
+<h3>Pro</h3>
+<p class="price">$5 <span class="muted">/ 100 conversions</span></p>
+<p class="muted">Best value</p>
+</div>
+<ul class="list">
+<li>100 conversions</li>
+<li>Faster processing</li>
+<li>Priority support</li>
+</ul>
+<a class="btn btn--primary btn--full" href="#convert">Go Pro</a>
+</div>
+
+<div class="price-card">
+<div class="price-card__head">
+<h3>Business</h3>
+<p class="price">$15 <span class="muted">/ 500 conversions</span></p>
+<p class="muted">For teams</p>
+</div>
+<ul class="list">
+<li>500 conversions</li>
+<li>Max speed</li>
+<li>Dedicated support</li>
+</ul>
+<a class="btn btn--secondary btn--full" href="#convert">Choose Business</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section class="section section--alt" id="faq">
+<div class="container">
+<h2 class="section__title">FAQ</h2>
+<div class="faq">
+<details>
+<summary>Do you store my files?</summary>
+<p>No. Files are deleted automatically after conversion.</p>
+</details>
+<details>
+<summary>Is there a watermark on free conversions?</summary>
+<p>No watermark. The free plan is limited by number of conversions.</p>
+</details>
+<details>
+<summary>What file types do you support?</summary>
+<p>Common formats like DOCX, JPG/PNG, and more. Add your supported list here.</p>
+</details>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="container footer__inner">
+<div class="brand footer__brand">
+<span class="brand__logo" aria-hidden="true">🧡</span>
+<span class="brand__name">PDFJoy</span>
+</div>
+<div class="footer__links">
+<a href="#pricing">Pricing</a>
+<a href="#faq">FAQ</a>
+<a href="#">Privacy</a>
+<a href="#">Terms</a>
+</div>
+</div>
+</footer>
+</main>
+</body>
+</html>
+
+/* styles.css */
+:root{
+--bg: #ffffff;
+--text: #0f172a;
+--muted: #64748b;
+
+/* Joyful palette */
+--primary: #ff3d81; /* pink */
+--primary2:#ffb703; /* sunny yellow */
+--accent: #2dd4bf; /* teal */
+--accent2: #7c3aed; /* violet */
+--blue: #2563eb;
+
+--card: #ffffff;
+--stroke: rgba(15, 23, 42, .10);
+
+--shadow: 0 18px 45px rgba(15, 23, 42, .10);
+--radius: 18px;
+
+--font: "Plus Jakarta Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+margin:0;
+font-family:var(--font);
+color:var(--text);
+background: radial-gradient(1200px 800px at 10% 10%, rgba(255,61,129,.10), transparent 60%),
+radial-gradient(1200px 800px at 90% 10%, rgba(45,212,191,.12), transparent 55%),
+radial-gradient(1200px 800px at 60% 90%, rgba(255,183,3,.14), transparent 55%),
+var(--bg);
+}
+
+a{color:inherit;text-decoration:none}
+.container{
+width:min(1120px, 92vw);
+margin:0 auto;
+}
+
+.topbar{
+position:sticky;
+top:0;
+z-index:50;
+background: rgba(255,255,255,.70);
+backdrop-filter: blur(10px);
+border-bottom: 1px solid var(--stroke);
+}
+.topbar__inner{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:14px 0;
+gap:16px;
+}
+.brand{
+display:flex;
+align-items:center;
+gap:10px;
+font-weight:800;
+}
+.brand__logo{
+width:38px;height:38px;
+display:grid;place-items:center;
+border-radius:14px;
+background: linear-gradient(135deg, rgba(255,61,129,.20), rgba(255,183,3,.25));
+border:1px solid rgba(255,61,129,.25);
+}
+.brand__name{letter-spacing:.2px}
+
+.nav{
+display:flex;
+gap:18px;
+font-weight:600;
+color: rgba(15,23,42,.80);
+}
+.nav a{opacity:.9}
+.nav a:hover{opacity:1;text-decoration:underline}
+@media (max-width:760px){
+.nav{display:none}
+}
+
+.btn{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+border-radius: 999px;
+padding: 12px 16px;
+font-weight:800;
+border:1px solid var(--stroke);
+transition: transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease;
+box-shadow: 0 10px 18px rgba(15,23,42,.06);
+}
+.btn:hover{transform: translateY(-1px)}
+.btn--full{width:100%}
+
+.btn--primary{
+color:white;
+border: 1px solid rgba(255,61,129,.35);
+background: linear-gradient(135deg, var(--primary), var(--accent2));
+}
+.btn--primary:hover{
+box-shadow: 0 18px 40px rgba(255,61,129,.22);
+}
+
+.btn--secondary{
+background: rgba(45,212,191,.14);
+border:1px solid rgba(45,212,191,.30);
+}
+.btn--secondary:hover{
+box-shadow: 0 18px 40px rgba(45,212,191,.16);
+}
+
+.btn--ghost{
+background: rgba(255,183,3,.14);
+border:1px solid rgba(255,183,3,.28);
+}
+
+.hero{
+position:relative;
+overflow:hidden;
+padding: 58px 0 26px;
+}
+.hero__grid{
+display:grid;
+grid-template-columns: 1.2fr .95fr;
+gap:28px;
+align-items:center;
+}
+@media (max-width:920px){
+.hero__grid{grid-template-columns: 1fr; gap:18px}
+}
+
+.hero__content h1{
+font-size: clamp(34px, 4.2vw, 56px);
+line-height:1.02;
+margin: 14px 0 12px;
+}
+.lead{
+margin:0 0 18px;
+color: rgba(15,23,42,.72);
+font-size: 1.08rem;
+line-height:1.6;
+max-width: 52ch;
+}
+.hero__cta{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+margin: 18px 0 16px;
+}
+
+.pill{
+display:inline-flex;
+align-items:center;
+gap:10px;
+padding: 9px 12px;
+border-radius: 999px;
+font-weight:800;
+background: rgba(255,61,129,.12);
+border: 1px solid rgba(255,61,129,.20);
+}
+.dot{
+width:10px;height:10px;border-radius:999px;
+background: linear-gradient(135deg, var(--primary2), var(--primary));
+box-shadow: 0 0 0 6px rgba(255,183,3,.18);
+}
+
+.trust{
+display:flex;
+gap:14px;
+flex-wrap:wrap;
+margin-top:12px;
+color: rgba(15,23,42,.72);
+font-weight:700;
+}
+.trust__item{
+display:flex;
+gap:8px;
+align-items:center;
+padding: 8px 10px;
+border-radius: 999px;
+background: rgba(255,255,255,.65);
+border:1px solid var(--stroke);
+}
+.trust__icon{font-size:1.05rem}
+
+.card{
+background: rgba(255,255,255,.82);
+border: 1px solid var(--stroke);
+border-radius: var(--radius);
+box-shadow: var(--shadow);
+padding: 18px;
+}
+.card--glow{
+position:relative;
+}
+.card--glow:before{
+content:"";
+position:absolute;
+inset:-2px;
+border-radius: calc(var(--radius) + 2px);
+background: linear-gradient(135deg, rgba(255,61,129,.35), rgba(45,212,191,.35), rgba(255,183,3,.35));
+filter: blur(12px);
+opacity:.35;
+z-index:-1;
+}
+.card__top{
+display:flex;
+align-items:flex-start;
+justify-content:space-between;
+gap:12px;
+margin-bottom: 12px;
+}
+.badge{
+font-weight:900;
+font-size:.76rem;
+padding: 6px 10px;
+border-radius: 999px;
+background: rgba(255,183,3,.22);
+border: 1px solid rgba(255,183,3,.34);
+}
+.card__title{font-weight:900}
+.card__subtitle{color:var(--muted); font-weight:700}
+
+.dropzone{
+display:block;
+cursor:pointer;
+border-radius: 16px;
+border: 2px dashed rgba(124,58,237,.28);
+background: linear-gradient(135deg, rgba(124,58,237,.08), rgba(45,212,191,.10));
+padding: 18px;
+margin: 12px 0 14px;
+}
+.dropzone input{display:none}
+.dropzone__inner{
+display:grid;
+place-items:center;
+text-align:center;
+gap:6px;
+padding: 10px 0;
+}
+.dropzone__icon{font-size:2.1rem}
+.dropzone__text{font-weight:900}
+.dropzone__hint{color:var(--muted); font-weight:700; font-size:.92rem}
+
+.tiny{
+margin: 10px 0 0;
+color: var(--muted);
+font-size: .92rem;
+font-weight:700;
+}
+
+.section{
+padding: 56px 0;
+}
+.section--alt{
+background: rgba(255,255,255,.55);
+border-top: 1px solid var(--stroke);
+border-bottom: 1px solid var(--stroke);
+}
+.section__title{
+margin:0;
+font-size: clamp(24px, 2.6vw, 34px);
+line-height:1.15;
+}
+.section__subtitle{
+margin:10px 0 0;
+color: rgba(15,23,42,.70);
+font-weight:700;
+}
+
+.features{
+margin-top: 22px;
+display:grid;
+grid-template-columns: repeat(4, 1fr);
+gap:16px;
+}
+@media (max-width:960px){
+.features{grid-template-columns: repeat(2, 1fr);}
+}
+@media (max-width:520px){
+.features{grid-template-columns: 1fr;}
+}
+.feature{
+background: rgba(255,255,255,.85);
+border: 1px solid var(--stroke);
+border-radius: var(--radius);
+padding: 18px;
+box-shadow: 0 14px 30px rgba(15,23,42,.06);
+}
+.feature__icon{font-size:1.6rem}
+.feature h3{margin:10px 0 6px}
+.feature p{margin:0;color:rgba(15,23,42,.72);line-height:1.55;font-weight:600}
+
+.steps{
+margin-top:22px;
+display:grid;
+grid-template-columns: repeat(3, 1fr);
+gap:16px;
+}
+@media (max-width:820px){
+.steps{grid-template-columns: 1fr;}
+}
+.step{
+background: rgba(255,255,255,.85);
+border: 1px solid var(--stroke);
+border-radius: var(--radius);
+padding: 18px;
+}
+.step__num{
+width:42px;height:42px;
+border-radius: 14px;
+display:grid;place-items:center;
+font-weight:900;
+background: linear-gradient(135deg, rgba(255,61,129,.20), rgba(255,183,3,.25));
+border: 1px solid rgba(255,61,129,.22);
+}
+.step h3{margin:12px 0 6px}
+.step p{margin:0;color:rgba(15,23,42,.72);font-weight:600}
+
+.pricing{
+margin-top:22px;
+display:grid;
+grid-template-columns: repeat(3, 1fr);
+gap:16px;
+}
+@media (max-width:980px){
+.pricing{grid-template-columns: 1fr;}
+}
+.price-card{
+position:relative;
+background: rgba(255,255,255,.88);
+border: 1px solid var(--stroke);
+border-radius: var(--radius);
+padding: 18px;
+box-shadow: 0 18px 40px rgba(15,23,42,.08);
+}
+.price-card--popular{
+border: 1px solid rgba(255,61,129,.32);
+transform: translateY(-4px);
+}
+.popular{
+position:absolute;
+top:14px; right:14px;
+font-weight:900;
+font-size:.8rem;
+padding:6px 10px;
+border-radius: 999px;
+color:#fff;
+background: linear-gradient(135deg, var(--primary), var(--accent2));
+}
+.price-card__head h3{margin:0}
+.price{
+margin:10px 0 4px;
+font-size: 1.6rem;
+font-weight:900;
+}
+.muted{color:var(--muted); font-weight:700}
+.list{
+list-style:none;
+padding:0;
+margin: 14px 0 16px;
+display:grid;
+gap:10px;
+color: rgba(15,23,42,.78);
+font-weight:700;
+}
+.list li::before{
+content:"✅";
+margin-right:10px;
+}
+
+.faq{
+margin-top: 18px;
+display:grid;
+gap:12px;
+}
+details{
+background: rgba(255,255,255,.85);
+border: 1px solid var(--stroke);
+border-radius: var(--radius);
+padding: 14px 16px;
+}
+summary{
+cursor:pointer;
+font-weight:900;
+}
+details p{
+margin:10px 0 0;
+color: rgba(15,23,42,.72);
+font-weight:600;
+line-height:1.6;
+}
+
+.footer{
+padding: 26px 0;
+border-top:1px solid var(--stroke);
+background: rgba(255,255,255,.70);
+}
+.footer__inner{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+flex-wrap:wrap;
+}
+.footer__links{
+display:flex;
+gap:14px;
+color: rgba(15,23,42,.70);
+font-weight:700;
+}
+.footer__links a:hover{text-decoration:underline}
+
+/* Background blobs */
+.hero__bg{position:absolute; inset:0; pointer-events:none; z-index:-1}
+.blob{
+position:absolute;
+width: 420px;
+height: 420px;
+border-radius: 50%;
+filter: blur(40px);
+opacity: .28;
+}
+.blob--1{left:-120px; top:-120px; background: var(--primary)}
+.blob--2{right:-140px; top:40px; background: var(--accent)}
+.blob--3{left:35%; bottom:-180px; background: var(--primary2)}
+
+
+⸻
+
