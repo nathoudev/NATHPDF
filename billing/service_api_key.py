@@ -9,8 +9,15 @@ from .database import get_db
 from .models import ApiKey
 import secrets
 
+
 def generate_api_key() -> str:
+    """
+    Génère une clé API sécurisée.
+    """
     return secrets.token_hex(32)
+
+
+
 
 
 async def verify_api_key(

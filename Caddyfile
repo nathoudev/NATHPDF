@@ -1,0 +1,15 @@
+nath-pdf.com, www.nath-pdf.com {
+    reverse_proxy api:8080
+ reverse_proxy /paypal/* pdfproject_api:8080
+    reverse_proxy /public/* pdfproject_api:8080
+    reverse_proxy /convert pdfproject_api:8080
+
+    root * /app/static
+    file_server
+}
+
+nath-pdf.net, www.nath-pdf.net,
+nath-pdf.io, www.nath-pdf.io {
+    redir https://nath-pdf.com{uri} permanent
+}
+

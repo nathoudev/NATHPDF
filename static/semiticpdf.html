@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertisseur PDF RTL (Arabe/Hébreu)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col items-center py-12">
+
+    <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-2xl">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Extraction PDF (RTL Support)</h1>
+        <p class="text-gray-600 mb-8 text-center">Sélectionnez un PDF contenant de l'arabe ou de l'hébreu pour extraire le texte proprement.</p>
+
+        <form id="uploadForm" class="space-y-4">
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors">
+                <input type="file" id="pdfFile" accept=".pdf" class="hidden" required>
+                <label for="pdfFile" class="cursor-pointer flex flex-col items-center">
+                    <svg class="w-12 h-12 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                    <span id="fileName" class="text-sm text-gray-500">Cliquez pour choisir un PDF</span>
+                </label>
+            </div>
+            
+            <button type="submit" id="submitBtn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg disabled:bg-gray-400">
+                Extraire le texte
+            </button>
+        </form>
+
+        <div id="loader" class="hidden mt-6 text-center italic text-blue-600 animate-pulse">Traitement du PDF en cours...</div>
+
+        <div id="resultArea" class="hidden mt-8">
+            <h2 class="text-lg font-semibold mb-2 text-gray-700">Texte Extrait :</h2>
+            <div id="textContent" dir="rtl" class="p-4 bg-gray-100 rounded-lg border border-gray-200 min-h-[200px] whitespace-pre-wrap text-right font-serif text-lg"></div>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('pdfFile');
+        const fileNameSpan = document.getElementById('fileName');
+        const uploadForm = document.getElementById('uploadForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const resultArea = document.getElementById('resultArea');
+        const textContent = document.getElementById('textContent');
+        const loader = document.getElementById('loader');
+
+        // Afficher le nom du fichier sélectionné
+        fileInput.onchange = () => {
+            if (fileInput.files[0]) fileNameSpan.innerText = fileInput.files[0].name;
+        };
+
+        uploadForm.onsubmit = async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            // UI Reset
+            submitBtn.disabled = true;
+            loader.classList.remove('hidden');
+            resultArea.classList.add('hidden');
+
+            try {
+                // ATTENTION : L'URL doit correspondre à ta route FastAPI
+                const response = await fetch('/convert-rtl', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) throw new Error('Erreur lors de la conversion');
+
+                const data = await response.json();
+                
+                // On affiche le texte
+                textContent.innerText = data.content || data.text || "Aucun texte extrait.";
+                resultArea.classList.remove('hidden');
+            } catch (err) {
+                alert("Erreur : " + err.message);
+            } finally {
+                submitBtn.disabled = false;
+                loader.classList.add('hidden');
+            }
+        };
+    </script>
+</body>
+</html>

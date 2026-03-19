@@ -86,34 +86,60 @@
     <label for="email">Votre adresse email</label>
     <input id="email" type="email" placeholder="vous@example.com" required />
 
-    <button id="payBtn">Payer avec Paypal
-    </button>
+    
 
     <div id="message" class=""></div>
   </div>
 
-<script src="https://www.paypal.com/sdk/js?client-id=AZ_jXJXnqJUTO3Nu5xcM_ErnWyzGTlMirvA6_Opn_G-XyCQu7U9K8KQ8vrSIaPiYHABgxP0LdGQrLqV7&currency=EUR"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AYMtfLHVlzB6axWPeSrikXAwPuyGZZ1s6qs2XF_bdiVuaVleMmipqAPnQh1eA6TN2SXHNqLg4cgwsACn&currency=EUR"></script>
 
-<div id="paypal-button-container"></div>
+   <div id="paypal-button-container"></div>
 
 <script>
-paypal.Buttons({
-    createOrder: function(data, actions) {
-        return fetch('/paypal/create-order', {
-            method: 'post'
-        }).then(res => res.json())
-          .then(data => data.orderID);
+  const emailInput = document.getElementById("email"); // si tu as un champ email
+  function getEmail() {
+    return emailInput ? emailInput.value : "test@example.com";
+  }
+
+  paypal.Buttons({
+    createOrder: function () {
+      return fetch("/paypal/create-order", { method: "POST" })
+        .then(res => res.json())
+        .then(data => data.orderID);
     },
-    onApprove: function(data, actions) {
-        return fetch('/paypal/capture-order?orderID=' + data.orderID + '&email=test@example.com', {
-            method: 'post'
-        }).then(res => res.json())
-          .then(details => {
-              alert("Paiement réussi ! Clé API : " + details.api_key);
-          });
+    onApprove: function (data) {
+      return fetch(`/paypal/capture-order?orderID=${data.orderID}`, {
+    method: "POST"
+  })
+        .then(res => res.json())
+        .then(out => {
+          alert("Paiement OK 🎉 Ta clé API : " + out.api_key);
+          // Optionnel: rediriger vers success page
+          // window.location.href = "/static/success.html";
+        });
     }
-}).render('#paypal-button-container');
+  }).render("#paypal-button-container");
 </script>
+
+<script>
+async function loadPayPalSDK() {
+  const cfg = await fetch("/public/config").then(r => r.json());
+  if (!cfg.paypal_client_id) throw new Error("Missing PayPal client id");
+
+  const script = document.createElement("script");
+  script.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(cfg.paypal_client_id)}&currency=${encodeURIComponent(cfg.currency || "EUR")}`;
+  script.onload = () => window.__CFG__ = cfg;
+  document.head.appendChild(script);
+
+  await new Promise((resolve, reject) => {
+    script.onload = resolve;
+    script.onerror = reject;
+  });
+
+  return cfg;
+}
+</script>
+
 
 </body>
 </html>

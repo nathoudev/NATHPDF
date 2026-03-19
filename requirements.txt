@@ -12,4 +12,3 @@ requests
 pdfplumber
 arabic-reshaper
 python-bidi
-

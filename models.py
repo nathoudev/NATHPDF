@@ -9,15 +9,6 @@ import secrets
 Base = declarative_base()
 
 
-class PremiumUser(Base):
-    __tablename__ = "premium_users"
-
-    id = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=True, index=True)
-    active = Column(Boolean, default=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-
-
 class User(Base):
     __tablename__ = "users"
 

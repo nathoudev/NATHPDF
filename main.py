@@ -1,3 +1,4 @@
+
 # main.py
 
 import subprocess
@@ -19,13 +20,8 @@ from billing.routes_webhook import router as webhook_router
 from fastapi.responses import RedirectResponse
 from billing.routes_account import router as account_router
 from billing.routes_paypal import router as paypal_router
-from fastapi import FastAPI, UploadFile, File, HTTPException
-import pdfplumber
-import arabic_reshaper
-from bidi.algorithm import get_display
-import io
-
-
+from billing.routes_public import router as public_router
+from semitic import router as semitic_router
 
 ENV = os.getenv("ENV", "dev")
 
@@ -43,10 +39,10 @@ app.include_router(mock_stripe_router)
 app.include_router(webhook_router)
 app.include_router(account_router)
 app.include_router(paypal_router)
+app.include_router(public_router)
+app.include_router(semitic_router)
 
-
-
-
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 if os.environ.get("MOCK_STRIPE", "0") == "1":
     app.mount("/dev-static", StaticFiles(directory="dev-static"), name="dev-static")
@@ -61,7 +57,6 @@ async def block_mock_buy_page():
     # pas idéal
 
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 if ENV != "prod":
     from billing.mock_stripe import router as mock_stripe_router
@@ -113,8 +108,8 @@ def convert_to_pdf(upload_file: UploadFile) -> Path:
 @app.post("/convert", response_class=FileResponse)
 async def convert_endpoint(
     file: UploadFile = File(...),
-    api_key = Depends(verify_api_key),  # ApiKey en DB
-    db: Session = Depends(get_db),
+      # ApiKey en DB
+
 ):
     if not file.filename:
         raise HTTPException(status_code=400, detail="Aucun fichier fourni")
@@ -123,10 +118,7 @@ async def convert_endpoint(
         pdf_path = convert_to_pdf(file)
 
         # 🔽 décrémentation du quota
-        if api_key.quota_remaining is not None:
-            api_key.quota_remaining -= 1
-            db.add(api_key)
-            db.commit()
+       
 
     except HTTPException:
         raise
@@ -142,46 +134,40 @@ async def convert_endpoint(
 
 
 
-@app.get("")
+@app.get("/")
 async def health():
-    return FileResponse("home.html")
+    return FileResponse("static/index.html")
 
 
-@app.post("/convert-rtl")
-async def convert_rtl_pdf(file: UploadFile = File(...)):
-    # Vérification de l'extension
-    if not file.filename.lower().endswith(".pdf"):
-        raise HTTPException(status_code=400, detail="Le fichier doit être un PDF.")
+
+# Monte le dossier static (pour le CSS/JS si besoin)
+
+
+# Crée une route pour servir ton HTML
+@app.get("/semitic")
+async def get_semitic_page():
+    return FileResponse("static/semiticpdf.html")
+
+
+
+
+@app.post("/convert/free", response_class=FileResponse)
+async def convert_free_endpoint(
+    file: UploadFile = File(...),
+):
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="Aucun fichier fourni")
 
     try:
-        # Lecture du contenu en mémoire sans enregistrer sur le disque
-        pdf_content = await file.read()
-        
-        with pdfplumber.open(io.BytesIO(pdf_content)) as pdf:
-            final_pages = []
-            
-            for page in pdf.pages:
-                # 1. Extraction du texte brut
-                raw_text = page.extract_text()
-                
-                if raw_text:
-                    # 2. Reshaping : Connecte les lettres arabes entre elles
-                    # (Essentiel pour que 'f-l-m' devienne 'film')
-                    reshaped_text = arabic_reshaper.reshape(raw_text)
-                    
-                    # 3. Bidi : Inverse l'ordre visuel pour le RTL
-                    bidi_text = get_display(reshaped_text)
-                    
-                    final_pages.append(bidi_text)
-                else:
-                    final_pages.append("[Page vide ou image sans texte]")
+        pdf_path = convert_to_pdf(file)
 
-            return {
-                "filename": file.filename,
-                "language_support": "RTL (Arabic/Hebrew)",
-                "content": "\n\n--- Page Break ---\n\n".join(final_pages)
-            }
-
+    except HTTPException:
+        raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erreur lors de la conversion : {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
+    return FileResponse(
+        path=pdf_path,
+        filename=pdf_path.name,
+        media_type="application/pdf",
+    )

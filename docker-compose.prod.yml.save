@@ -1,0 +1,68 @@
+rvices:
+  api:
+    build: .
+    container_name: pdfproject_api
+    ports:
+      - "8081:8080"
+    environment:
+      ENV: "prod"
+      PYTHONUNBUFFERED: "1"
+      DATABASE_URL: postgresql://pdfuser:pdfpassword@db:5432/pdfbilling
+
+      # Stripe (PROD ou TEST selon ton choix)
+      STRIPE_API_KEY: ${STRIPE_API_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+
+      # Email SMTP
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SMTP_FROM: ${SMTP_FROM}
+
+      # URL publique en prod (ex: https://ton-domaine.com)
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL}
+
+      # IMPORTANT: pas de MOCK en prod
+      MOCK_STRIPE: "0"
+
+    restart: unless-stopped
+
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+  db:
+    image: postgres:16
+    container_name: pdfproject_db
+    environment:
+      POSTGRES_USER: pdfuser
+      POSTGRES_PASSWORD: pdfpassword
+      POSTGRES_DB: pdfbilling
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+    healthcheck:
+     test: ["CMD-SHELL", "pg_isready -U pdfuser -d pdfbilling"]
+     interval: 5s
+     timeout: 3s
+     retries: 20
+
+caddy:
+    image: caddy:2
+    container_name: pdfproject_caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  pgdata:
