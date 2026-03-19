@@ -9,3 +9,7 @@ python-dotenv
 psycopg2-binary  # si tu pars sur PostgreSQL
 aiofiles
 requests
+pdfplumber
+arabic-reshaper
+python-bidi
+

@@ -7,6 +7,10 @@ from .rate_limit import limiter, RateLimitConfig
 from .request_utils import get_client_ip
 from .database import get_db
 from .models import ApiKey
+import secrets
+
+def generate_api_key() -> str:
+    return secrets.token_hex(32)
 
 
 async def verify_api_key(

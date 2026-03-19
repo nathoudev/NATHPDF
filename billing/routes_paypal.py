@@ -1,11 +1,9 @@
-
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from billing.paypal_service import create_order, get_access_token
 from billing.database import get_db
-from models import User, ApiKey
-from utils import generate_api_key
+from billing.models import User, ApiKey
+from billing.service_api_key import generate_api_key
 import requests
 import os
 
@@ -25,7 +23,7 @@ def create_paypal_order():
 
 
 @router.post("/capture-order")
-def capture_order(orderID: str, email: str, db: Session = Depends(get_db)):
+def capture_order(orderID: str, db: Session = Depends(get_db)):
     access_token = get_access_token()
 
     headers = {
@@ -38,10 +36,17 @@ def capture_order(orderID: str, email: str, db: Session = Depends(get_db)):
         headers=headers,
     )
 
-    if response.status_code != 201:
-        raise HTTPException(status_code=400, detail="Capture failed")
+    if response.status_code not in (200, 201):
+        raise HTTPException(status_code=400, detail=f"Capture failed: {response.status_code} {response.text}")
 
-    # 💰 Paiement confirmé → créer utilisateur + clé API
+    capture = response.json()
+
+    payer = capture.get("payer", {})
+    email = payer.get("email_address")
+
+    if not email:
+        raise HTTPException(status_code=400, detail="Email not provided by PayPal")
+
     user = db.query(User).filter(User.email == email).first()
     if not user:
         user = User(email=email)
@@ -60,4 +65,8 @@ def capture_order(orderID: str, email: str, db: Session = Depends(get_db)):
     db.add(api_key)
     db.commit()
 
-    return {"status": "success", "api_key": api_key_value}
+    return {
+        "status": "success",
+        "api_key": api_key_value,
+        "email": email,
+    }
