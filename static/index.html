@@ -1,128 +1,76 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Nath PDF — Convert files to PDF instantly</title>
-  <meta name="description" content="Convert Word, PowerPoint, images and more to PDF in seconds. Fast, secure, no registration required." />
-
-  <!-- Tailwind CDN (ok for MVP). Later: bundle for perf. -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- PayPal SDK (SANDBOX or LIVE). Replace CLIENT_ID below. -->
-  <script src="https://www.paypal.com/sdk/js?client-id=REPLACE_WITH_YOUR_PAYPAL_CLIENT_ID&currency=EUR"></script>
+    <meta charset="UTF-8">
+    <title>NATHPDF - Convertisseur Universel</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; text-align: center; padding: 50px; background: #f4f7f6; }
+        .upload-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; }
+        input[type="file"] { margin: 20px 0; }
+        button { background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #0056b3; }
+        #status { margin-top: 20px; color: #555; }
+    </style>
 </head>
+<body>
+<form id="convertForm" class="mt-6">
+  <div class="rounded-2xl border border-dashed p-6">
+    <input id="fileInput" type="file" class="block w-full text-sm" />
+  </div>
 
-<body class="bg-white text-slate-900">
-  <!-- Top bar -->
-  <header class="border-b">
-    <div class="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <div class="h-9 w-9 rounded-xl bg-blue-600"></div>
-        <div>
-          <div class="font-semibold leading-none">Nath PDF</div>
-          <div class="text-xs text-slate-500">Fast file → PDF conversion</div>
-        </div>
-      </div>
-      <nav class="flex items-center gap-3 text-sm">
-        <a href="#pricing" class="text-slate-600 hover:text-slate-900">Pricing</a>
-        <a href="#faq" class="text-slate-600 hover:text-slate-900">FAQ</a>
-        <a href="/static/buy.html" class="text-slate-600 hover:text-slate-900">Buy</a>
-      </nav>
-    </div>
-  </header>
+  <button id="convertBtn" type="submit"
+          class="mt-4 w-full rounded-2xl bg-blue-600 px-4 py-3 text-white font-semibold hover:bg-blue-700">
+    Convert to PDF
+  </button>
+</form>
 
-  <!-- Hero + Converter -->
-  <main class="mx-auto max-w-6xl px-4 py-10">
-    <div class="grid lg:grid-cols-2 gap-10 items-start">
-      <!-- Left: marketing -->
-      <section>
-        <h1 class="text-4xl sm:text-5xl font-bold tracking-tight">
-          Convert your files to PDF in seconds.
-        </h1>
-        <p class="mt-4 text-lg text-slate-600">
-          Fast. Secure. No registration required.
-        </p>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("convertForm");
 
-        <div class="mt-6 flex flex-wrap gap-3">
-          <span class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm">
-            ⚡ Instant conversion
-          </span>
-          <span class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm">
-            🔒 Auto delete after processing
-          </span>
-          <span class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm">
-            💎 High-quality output
-          </span>
-        </div>
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-        <div class="mt-8 rounded-2xl border bg-slate-50 p-5">
-          <div class="flex items-center justify-between gap-3">
-            <div>
-              <div class="font-semibold">Free conversions</div>
-              <div class="text-sm text-slate-600">3 free conversions — no watermark</div>
-            </div>
-            <div class="text-right">
-              <div class="text-2xl font-bold" id="freeLeft">3</div>
-              <div class="text-xs text-slate-500">left</div>
-            </div>
-          </div>
-          <div class="mt-4 text-sm text-slate-600">
-            After your free conversions, unlock <span class="font-semibold">100 conversions</span> for <span class="font-semibold">€5</span>.
-          </div>
-        </div>
+        const fileInput = document.getElementById("fileInput");
+        const file = fileInput.files[0];
 
-        <div id="resultCard" class="mt-6 hidden rounded-2xl border p-5">
-          <div class="font-semibold">Your PDF is ready ✅</div>
-          <div class="mt-2 text-sm text-slate-600">
-            <a id="downloadLink" href="#" class="text-blue-600 underline">Download PDF</a>
-          </div>
-        </div>
+        if (!file) {
+            alert("Choisis un fichier");
+            return;
+        }
 
-        <div id="errorCard" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-5">
-          <div class="font-semibold text-red-700">Something went wrong</div>
-          <div id="errorText" class="mt-2 text-sm text-red-700"></div>
-        </div>
-      </section>
+        const formData = new FormData();
+        formData.append("file", file);
 
-      <!-- Right: converter -->
-      <section class="rounded-3xl border shadow-sm p-6">
-        <div class="flex items-center justify-between gap-4">
-          <div>
-            <div class="text-sm text-slate-500">Step 1</div>
-            <div class="text-xl font-semibold">Upload your file</div>
-          </div>
-          <div class="text-sm text-slate-500">Word • PPT • Images • etc.</div>
-        </div>
+        try {
+            const response = await fetch("/convert", {
+                method: "POST",
+                body: formData
+            });
 
-        <div class="mt-6">
-          
-          <div class="mt-2 flex gap-2">
-            <input id="apiKey" class="w-full rounded-xl border px-3 py-2 text-sm"
-                   placeholder="you have already 3 convertion for today" />
-            <button id="saveKeyBtn" class="rounded-xl bg-slate-900 px-4 py-2 text-sm text-white hover:bg-slate-800">
-              Save
-            </button>
-          </div>
-          <p class="mt-2 text-xs text-slate-500">
-            
-          </p>
-        </div>
+            if (!response.ok) {
+                const text = await response.text();
+                throw new Error(text || "Erreur conversion");
+            }
 
-        <form id="convertForm" class="mt-6">
-          <div class="rounded-2xl border border-dashed p-6">
-            <input id="fileInput" type="file" class="block w-full text-sm" />
-            <p class="mt-2 text-xs text-slate-500">
-              Files are deleted automatically after conversion (recommended).
-            </p>
-          </div>
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
 
-          <button id="convertBtn" type="submit"
-                  class="mt-4 w-full rounded-2xl bg-blue-600 px-4 py-3 text-white font-semibold hover:bg-blue-700">
-            Convert to PDF
-          </button>
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = file.name.replace(/\.[^/.]+$/, "") + ".pdf";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
 
-          <div class="mt-4 hidden" id="progressWrap">
-            <div class="flex items-center justify-between text-xs text-slate-500">
-              <span>Processing…</span><span id="progressPct">0%</span>
-            </div>
+            window.URL.revokeObjectURL(url);
+
+        } catch (err) {
+            console.error(err);
+            alert("Erreur : " + err.message);
+        }
+    });
+});
+</script>
+</body>
+</html>
