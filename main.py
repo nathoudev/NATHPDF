@@ -136,7 +136,7 @@ async def convert_endpoint(
 
 @app.get("/")
 async def health():
-    return FileResponse("static/index.html")
+    return FileResponse("static/index3.html")
 
 
 

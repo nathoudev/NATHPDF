@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nath PDF</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-white text-gray-900">
+
+<header class="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between">
+    <div class="flex items-center gap-2">
+      <div class="text-2xl">📄</div>
+      <span class="text-2xl font-bold">Nath PDF</span>
+    </div>
+  </div>
+</header>
+
+<main class="pt-24">
+
+<section class="text-center max-w-4xl mx-auto px-6 py-20">
+  <h1 class="text-5xl font-bold mb-6">
+    Convertissez vos fichiers en PDF
+  </h1>
+
+  <p class="text-xl text-gray-600 mb-10">
+    Simple. Rapide. Sans inscription.
+  </p>
+
+  <p class="text-gray-500">
+    ✨ 3 conversions gratuites par jour
+  </p>
+</section>
+
+<!-<form id="convertForm">
+
+  <div id="dropZone"
+       class="w-full border-2 border-dashed border-gray-300 rounded-xl p-12 text-center cursor-pointer hover:border-blue-400 transition">
+
+    <div class="text-5xl mb-4">⬆️</div>
+
+    <p class="text-lg font-semibold text-gray-700">
+      Glissez vos fichiers ici ou cliquez pour sélectionner
+    </p>
+
+    <p class="text-sm text-gray-500 mt-2">
+      PDF, Word, Excel, PowerPoint et plus encore
+    </p>
+
+    <input id="fileInput" type="file" class="hidden" />
+  </div>
+
+  <button id="convertBtn" type="submit"
+    class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700">
+    Convertir
+  </button>
+
+</form>
+
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("convertForm");
+  const fileInput = document.getElementById("fileInput");
+  const successBox = document.getElementById("successBox");
+  const errorBox = document.getElementById("errorBox");
+  const downloadLink = document.getElementById("downloadLink");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    successBox.classList.add("hidden");
+    errorBox.classList.add("hidden");
+
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/convert", {
+        method: "POST",
+        body: formData
+      });
+
+      if (!res.ok) throw new Error("Erreur");
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+
+      downloadLink.href = url;
+      downloadLink.download = "converted.pdf";
+
+      successBox.classList.remove("hidden");
+
+    } catch (err) {
+      errorBox.classList.remove("hidden");
+      errorBox.textContent = "Erreur de conversion";
+    }
+  });
+});
+</script>
+
+</body>
+</html>
