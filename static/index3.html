@@ -35,7 +35,7 @@
   </p>
 </section>
 
-<!-<form id="convertForm">
+<form id="convertForm" class="max-w-2xl mx-auto px-6 mb-20">
 
   <div id="dropZone"
        class="w-full border-2 border-dashed border-gray-300 rounded-xl p-12 text-center cursor-pointer hover:border-blue-400 transition">
@@ -54,12 +54,20 @@
   </div>
 
   <button id="convertBtn" type="submit"
-    class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700">
+    class="mt-4 w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition">
     Convertir
   </button>
 
-</form>
+  <div id="successBox" class="hidden mt-4 p-4 bg-green-100 border border-green-400 rounded-lg">
+    <p class="text-green-800 font-medium">Conversion réussie !</p>
+    <a id="downloadLink" href="#" download class="mt-2 inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+      Télécharger PDF
+    </a>
+  </div>
 
+  <div id="errorBox" class="hidden mt-4 p-4 bg-red-100 border border-red-400 rounded-lg text-red-800"></div>
+
+</form>
 
 </main>
 
@@ -67,9 +75,31 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("convertForm");
   const fileInput = document.getElementById("fileInput");
+  const dropZone = document.getElementById("dropZone");
   const successBox = document.getElementById("successBox");
   const errorBox = document.getElementById("errorBox");
   const downloadLink = document.getElementById("downloadLink");
+
+  // Clic sur la zone de drop
+  dropZone.addEventListener("click", () => fileInput.click());
+
+  // Drag and drop
+  dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropZone.classList.add("border-blue-500", "bg-blue-50");
+  });
+
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("border-blue-500", "bg-blue-50");
+  });
+
+  dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropZone.classList.remove("border-blue-500", "bg-blue-50");
+    if (e.dataTransfer.files.length) {
+      fileInput.files = e.dataTransfer.files;
+    }
+  });
 
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -78,7 +108,11 @@ document.addEventListener("DOMContentLoaded", function () {
     errorBox.classList.add("hidden");
 
     const file = fileInput.files[0];
-    if (!file) return;
+    if (!file) {
+      errorBox.textContent = "Veuillez sélectionner un fichier";
+      errorBox.classList.remove("hidden");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("file", file);
@@ -89,19 +123,19 @@ document.addEventListener("DOMContentLoaded", function () {
         body: formData
       });
 
-      if (!res.ok) throw new Error("Erreur");
+      if (!res.ok) throw new Error("Erreur de conversion");
 
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
 
       downloadLink.href = url;
-      downloadLink.download = "converted.pdf";
+      downloadLink.download = file.name.replace(/\.[^/.]+$/, "") + ".pdf";
 
       successBox.classList.remove("hidden");
 
     } catch (err) {
       errorBox.classList.remove("hidden");
-      errorBox.textContent = "Erreur de conversion";
+      errorBox.textContent = "Erreur de conversion : " + err.message;
     }
   });
 });
