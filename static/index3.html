@@ -30,28 +30,41 @@
     Simple. Rapide. Sans inscription.
   </p>
 
-  <p class="text-gray-500">
-    ✨ 3 conversions gratuites par jour
-  </p>
+  <div id="freeTrialInfo" class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+    <p class="text-lg font-semibold text-blue-900">
+      Conversions gratuites restantes : <span id="conversionCount" class="text-2xl text-blue-600">3</span>/3
+    </p>
+  </div>
 </section>
 
 <form id="convertForm" class="max-w-2xl mx-auto px-6 mb-20">
 
-  <div id="dropZone"
-       class="w-full border-2 border-dashed border-gray-300 rounded-xl p-12 text-center cursor-pointer hover:border-blue-400 transition">
+  <label for="fileInput" id="dropZone"
+       class="w-full border-2 border-dashed border-gray-300 rounded-xl p-12 text-center cursor-pointer hover:border-blue-400 transition block">
 
-    <div class="text-5xl mb-4">⬆️</div>
+    <div id="dropZoneContent">
+      <div class="text-5xl mb-4">⬆️</div>
 
-    <p class="text-lg font-semibold text-gray-700">
-      Glissez vos fichiers ici ou cliquez pour sélectionner
-    </p>
+      <p id="dropZoneText" class="text-lg font-semibold text-gray-700">
+        Glissez vos fichiers ici ou cliquez pour sélectionner
+      </p>
 
-    <p class="text-sm text-gray-500 mt-2">
-      PDF, Word, Excel, PowerPoint et plus encore
-    </p>
+      <p class="text-sm text-gray-500 mt-2">
+        PDF, Word, Excel, PowerPoint et plus encore
+      </p>
+    </div>
 
-    <input id="fileInput" type="file" class="hidden" />
-  </div>
+    <div id="filePreview" class="hidden">
+      <div class="text-5xl mb-4">📄</div>
+      <p id="fileName" class="text-lg font-semibold text-gray-700"></p>
+      <p id="fileSize" class="text-sm text-gray-500 mt-2"></p>
+      <button type="button" id="removeFile" class="mt-4 text-red-600 hover:text-red-800 text-sm font-medium">
+        ✕ Supprimer le fichier
+      </button>
+    </div>
+
+    <input id="fileInput" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.jpg,.jpeg,.png" class="hidden" />
+  </label>
 
   <button id="convertBtn" type="submit"
     class="mt-4 w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition">
@@ -69,6 +82,77 @@
 
 </form>
 
+<div id="limitReachedModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg p-8 max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Limite atteinte</h2>
+    <p class="text-gray-600 mb-6 text-center">
+      Vous avez utilisé vos 3 conversions gratuites. Passez à un abonnement pour continuer.
+    </p>
+    <button id="closeModal" class="w-full mb-2 bg-gray-300 text-gray-800 py-2 rounded-lg hover:bg-gray-400 transition">
+      Fermer
+    </button>
+  </div>
+</div>
+
+<section class="bg-gray-50 py-20">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-4xl font-bold text-center mb-16">Plans d'abonnement</h2>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <div class="bg-white rounded-lg border border-gray-200 p-8 text-center">
+        <h3 class="text-2xl font-bold mb-4">Gratuit</h3>
+        <p class="text-4xl font-bold text-blue-600 mb-6">0€</p>
+        <p class="text-gray-600 mb-8">3 conversions par jour</p>
+        <ul class="text-left space-y-3 mb-8 text-sm text-gray-700">
+          <li>✓ 3 conversions/jour</li>
+          <li>✓ Formats multiples</li>
+          <li>✗ Limite de taille</li>
+          <li>✗ Support prioritaire</li>
+        </ul>
+        <button class="w-full bg-gray-300 text-gray-800 py-2 rounded-lg cursor-not-allowed">
+          Plan actuel
+        </button>
+      </div>
+
+      <div class="bg-white rounded-lg border-2 border-blue-600 p-8 text-center relative">
+        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+          Populaire
+        </div>
+        <h3 class="text-2xl font-bold mb-4">Mensuel</h3>
+        <p class="text-4xl font-bold text-blue-600 mb-1">2,99€</p>
+        <p class="text-gray-600 mb-8">/mois</p>
+        <ul class="text-left space-y-3 mb-8 text-sm text-gray-700">
+          <li>✓ Conversions illimitées</li>
+          <li>✓ Tous les formats</li>
+          <li>✓ Fichiers jusqu'à 100MB</li>
+          <li>✓ Support standard</li>
+        </ul>
+        <button class="subscribeBtn w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition" data-plan="monthly">
+          Choisir ce plan
+        </button>
+      </div>
+
+      <div class="bg-white rounded-lg border border-gray-200 p-8 text-center">
+        <h3 class="text-2xl font-bold mb-4">Annuel</h3>
+        <p class="text-4xl font-bold text-blue-600 mb-1">29,99€</p>
+        <p class="text-gray-600 mb-8">/an</p>
+        <p class="text-xs text-green-600 font-semibold mb-8">Économisez 1,48€/mois</p>
+        <ul class="text-left space-y-3 mb-8 text-sm text-gray-700">
+          <li>✓ Conversions illimitées</li>
+          <li>✓ Tous les formats</li>
+          <li>✓ Fichiers jusqu'à 500MB</li>
+          <li>✓ Support prioritaire</li>
+        </ul>
+        <button class="subscribeBtn w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition" data-plan="yearly">
+          Choisir ce plan
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 </main>
 
 <script>
@@ -79,30 +163,107 @@ document.addEventListener("DOMContentLoaded", function () {
   const successBox = document.getElementById("successBox");
   const errorBox = document.getElementById("errorBox");
   const downloadLink = document.getElementById("downloadLink");
+  const conversionCount = document.getElementById("conversionCount");
+  const limitReachedModal = document.getElementById("limitReachedModal");
+  const closeModal = document.getElementById("closeModal");
+  const subscribeButtons = document.querySelectorAll(".subscribeBtn");
 
-  // Clic sur la zone de drop
-  dropZone.addEventListener("click", () => fileInput.click());
+  let conversionsLeft = parseInt(localStorage.getItem("conversionsLeft")) || 3;
+  updateConversionDisplay();
 
-  // Drag and drop
+  function updateConversionDisplay() {
+    conversionCount.textContent = conversionsLeft;
+    localStorage.setItem("conversionsLeft", conversionsLeft);
+  }
+
+  function showLimitModal() {
+    limitReachedModal.classList.remove("hidden");
+  }
+
+  closeModal.addEventListener("click", () => {
+    limitReachedModal.classList.add("hidden");
+  });
+
+  limitReachedModal.addEventListener("click", (e) => {
+    if (e.target === limitReachedModal) {
+      limitReachedModal.classList.add("hidden");
+    }
+  });
+
+  subscribeButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const plan = btn.dataset.plan;
+      console.log("Abonnement cliqué :", plan);
+      alert(`Redirection vers le paiement ${plan === 'monthly' ? 'mensuel (2,99€)' : 'annuel (29,99€)'}`);
+    });
+  });
+
+  function showFilePreview(file) {
+    const dropZoneContent = document.getElementById("dropZoneContent");
+    const filePreview = document.getElementById("filePreview");
+    const fileName = document.getElementById("fileName");
+    const fileSize = document.getElementById("fileSize");
+
+    const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
+
+    fileName.textContent = file.name;
+    fileSize.textContent = `Taille: ${sizeInMB} MB`;
+
+    dropZoneContent.classList.add("hidden");
+    filePreview.classList.remove("hidden");
+  }
+
+  function hideFilePreview() {
+    const dropZoneContent = document.getElementById("dropZoneContent");
+    const filePreview = document.getElementById("filePreview");
+
+    dropZoneContent.classList.remove("hidden");
+    filePreview.classList.add("hidden");
+    fileInput.value = "";
+  }
+
+  const removeFileBtn = document.getElementById("removeFile");
+  removeFileBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    hideFilePreview();
+  });
+
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files.length > 0) {
+      showFilePreview(fileInput.files[0]);
+    }
+  });
+
   dropZone.addEventListener("dragover", (e) => {
     e.preventDefault();
+    e.stopPropagation();
     dropZone.classList.add("border-blue-500", "bg-blue-50");
   });
 
-  dropZone.addEventListener("dragleave", () => {
+  dropZone.addEventListener("dragleave", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     dropZone.classList.remove("border-blue-500", "bg-blue-50");
   });
 
   dropZone.addEventListener("drop", (e) => {
     e.preventDefault();
+    e.stopPropagation();
     dropZone.classList.remove("border-blue-500", "bg-blue-50");
     if (e.dataTransfer.files.length) {
       fileInput.files = e.dataTransfer.files;
+      showFilePreview(fileInput.files[0]);
     }
   });
 
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
+
+    if (conversionsLeft <= 0) {
+      showLimitModal();
+      return;
+    }
 
     successBox.classList.add("hidden");
     errorBox.classList.add("hidden");
@@ -131,7 +292,11 @@ document.addEventListener("DOMContentLoaded", function () {
       downloadLink.href = url;
       downloadLink.download = file.name.replace(/\.[^/.]+$/, "") + ".pdf";
 
+      conversionsLeft--;
+      updateConversionDisplay();
+
       successBox.classList.remove("hidden");
+      hideFilePreview();
 
     } catch (err) {
       errorBox.classList.remove("hidden");
