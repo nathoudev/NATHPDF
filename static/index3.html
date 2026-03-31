@@ -120,10 +120,10 @@
           Populaire
         </div>
         <h3 class="text-2xl font-bold mb-4">Mensuel</h3>
-        <p class="text-4xl font-bold text-blue-600 mb-1">2,99€</p>
+        <p class="text-4xl font-bold text-blue-600 mb-1">4,99€</p>
         <p class="text-gray-600 mb-8">/mois</p>
         <ul class="text-left space-y-3 mb-8 text-sm text-gray-700">
-          <li>✓ Conversions illimitées</li>
+          <li>✓ 50 conversions/mois</li>
           <li>✓ Tous les formats</li>
           <li>✓ Fichiers jusqu'à 100MB</li>
           <li>✓ Support standard</li>
@@ -135,9 +135,9 @@
 
       <div class="bg-white rounded-lg border border-gray-200 p-8 text-center">
         <h3 class="text-2xl font-bold mb-4">Annuel</h3>
-        <p class="text-4xl font-bold text-blue-600 mb-1">29,99€</p>
+        <p class="text-4xl font-bold text-blue-600 mb-1">49,99€</p>
         <p class="text-gray-600 mb-8">/an</p>
-        <p class="text-xs text-green-600 font-semibold mb-8">Économisez 1,48€/mois</p>
+        <p class="text-xs text-green-600 font-semibold mb-8">Économisez 10€/an</p>
         <ul class="text-left space-y-3 mb-8 text-sm text-gray-700">
           <li>✓ Conversions illimitées</li>
           <li>✓ Tous les formats</li>
@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener("click", () => {
       const plan = btn.dataset.plan;
       console.log("Abonnement cliqué :", plan);
-      alert(`Redirection vers le paiement ${plan === 'monthly' ? 'mensuel (2,99€)' : 'annuel (29,99€)'}`);
+      alert(`Redirection vers le paiement ${plan === 'monthly' ? 'mensuel (4,99€)' : 'annuel (49,99€)'}`);
     });
   });
 
