@@ -22,18 +22,48 @@
 <main class="pt-24">
 
 <section class="text-center max-w-4xl mx-auto px-6 py-20">
-  <h1 class="text-5xl font-bold mb-6">
+  <div class="inline-block bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-2 rounded-full font-semibold text-sm mb-6 shadow-lg animate-pulse">
+    🎉 Offre de lancement : 15 conversions gratuites + 1er mois -50%
+  </div>
+
+  <h1 class="text-6xl font-extrabold mb-6 bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
     Convertissez vos fichiers en PDF
   </h1>
 
-  <p class="text-xl text-gray-600 mb-10">
-    Simple. Rapide. Sans inscription.
+  <p class="text-2xl text-gray-600 mb-8">
+    Simple. Rapide. Professionnel.
   </p>
 
-  <div id="freeTrialInfo" class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-    <p class="text-lg font-semibold text-blue-900">
-      Conversions gratuites restantes : <span id="conversionCount" class="text-2xl text-blue-600">3</span>/3
+  <div class="flex flex-wrap gap-4 justify-center items-center mb-10 text-gray-700">
+    <div class="flex items-center gap-2">
+      <span class="text-2xl">✓</span>
+      <span class="font-medium">Conversion instantanée</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-2xl">✓</span>
+      <span class="font-medium">Tous formats supportés</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-2xl">✓</span>
+      <span class="font-medium">100% sécurisé</span>
+    </div>
+  </div>
+
+  <div id="freeTrialInfo" class="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-6 mb-6 shadow-lg">
+    <div class="flex items-center justify-center gap-3 mb-2">
+      <span class="text-3xl">🎁</span>
+      <p class="text-xl font-bold text-green-800">
+        Offre Spéciale Découverte
+      </p>
+    </div>
+    <p class="text-lg font-semibold text-gray-700 mb-3">
+      Conversions gratuites restantes : <span id="conversionCount" class="text-3xl text-green-600 font-bold">15</span><span class="text-gray-500">/15</span>
     </p>
+    <div class="bg-white rounded-lg p-4 inline-block">
+      <p class="text-sm text-gray-600 mb-1">Puis profitez de notre offre exclusive :</p>
+      <p class="text-2xl font-bold text-blue-600">2,49€<span class="text-gray-400 line-through text-lg ml-2">4,99€</span></p>
+      <p class="text-sm text-green-600 font-semibold">-50% sur votre premier mois !</p>
+    </div>
   </div>
 </section>
 
@@ -67,9 +97,20 @@
   </label>
 
   <button id="convertBtn" type="submit"
-    class="mt-4 w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition">
-    Convertir
+    class="mt-4 w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+    <span id="convertBtnText">Convertir</span>
   </button>
+
+  <!-- Indicateur de progression -->
+  <div id="progressBox" class="hidden mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-sm font-medium text-blue-700">Conversion en cours...</span>
+      <span class="text-sm text-blue-600">Veuillez patienter</span>
+    </div>
+    <div class="w-full bg-blue-200 rounded-full h-2 overflow-hidden">
+      <div class="bg-blue-600 h-full rounded-full animate-pulse transition-all duration-300" style="width: 100%;"></div>
+    </div>
+  </div>
 
   <div id="successBox" class="hidden mt-4 p-4 bg-green-100 border border-green-400 rounded-lg">
     <p class="text-green-800 font-medium">Conversion réussie !</p>
@@ -82,69 +123,144 @@
 
 </form>
 
-<div id="limitReachedModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white rounded-lg p-8 max-w-md">
-    <h2 class="text-2xl font-bold mb-4 text-center">Limite atteinte</h2>
-    <p class="text-gray-600 mb-6 text-center">
-      Vous avez utilisé vos 3 conversions gratuites. Passez à un abonnement pour continuer.
-    </p>
-    <button id="closeModal" class="w-full mb-2 bg-gray-300 text-gray-800 py-2 rounded-lg hover:bg-gray-400 transition">
+<div id="limitReachedModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-2xl p-8 max-w-md shadow-2xl">
+    <div class="text-center mb-6">
+      <div class="text-6xl mb-4">🎯</div>
+      <h2 class="text-3xl font-bold mb-3">Limite atteinte !</h2>
+      <p class="text-gray-600 mb-2">
+        Vous avez utilisé vos <strong>15 conversions gratuites</strong>.
+      </p>
+      <p class="text-gray-700 font-medium">
+        Continuez avec notre offre de lancement :
+      </p>
+    </div>
+
+    <div class="bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-200 rounded-xl p-6 mb-6">
+      <div class="text-center">
+        <p class="text-sm text-gray-600 mb-2">Premier mois à</p>
+        <div class="flex items-center justify-center gap-3 mb-2">
+          <span class="text-4xl font-bold text-blue-600">2,49€</span>
+          <span class="text-2xl text-gray-400 line-through">4,99€</span>
+        </div>
+        <div class="inline-block bg-green-500 text-white px-4 py-1 rounded-full text-sm font-bold">
+          -50% de réduction
+        </div>
+        <p class="text-xs text-gray-500 mt-3">Puis 4,99€/mois - Résiliez quand vous voulez</p>
+      </div>
+    </div>
+
+    <button id="closeModal" class="w-full bg-gray-300 text-gray-800 py-3 rounded-lg hover:bg-gray-400 transition font-semibold">
       Fermer
     </button>
   </div>
 </div>
 
-<section class="bg-gray-50 py-20">
+<section class="bg-gradient-to-b from-gray-50 to-white py-20">
   <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-4xl font-bold text-center mb-16">Plans d'abonnement</h2>
+    <div class="text-center mb-12">
+      <h2 class="text-5xl font-bold mb-4">Choisissez votre plan</h2>
+      <p class="text-xl text-gray-600">Commencez avec 15 conversions gratuites</p>
+    </div>
 
     <div class="grid md:grid-cols-3 gap-8">
 
-      <div class="bg-white rounded-lg border border-gray-200 p-8 text-center">
-        <h3 class="text-2xl font-bold mb-4">Gratuit</h3>
-        <p class="text-4xl font-bold text-blue-600 mb-6">0€</p>
-        <p class="text-gray-600 mb-8">3 conversions par jour</p>
-        <ul class="text-left space-y-3 mb-8 text-sm text-gray-700">
-          <li>✓ 3 conversions/jour</li>
-          <li>✓ Formats multiples</li>
-          <li>✗ Limite de taille</li>
-          <li>✗ Support prioritaire</li>
+      <div class="bg-white rounded-2xl border-2 border-gray-200 p-8 text-center hover:shadow-xl transition-shadow">
+        <div class="inline-block bg-green-100 text-green-700 px-4 py-1 rounded-full text-xs font-bold mb-4">
+          ESSAI GRATUIT
+        </div>
+        <h3 class="text-3xl font-bold mb-4">Découverte</h3>
+        <p class="text-5xl font-bold text-gray-800 mb-2">0€</p>
+        <p class="text-gray-500 mb-6">Pour toujours</p>
+        <ul class="text-left space-y-4 mb-8 text-gray-700">
+          <li class="flex items-start gap-3">
+            <span class="text-green-500 text-xl font-bold">✓</span>
+            <span><strong>15 conversions</strong> gratuites</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-green-500 text-xl font-bold">✓</span>
+            <span>Tous formats (PDF, Word, Excel...)</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-gray-300 text-xl font-bold">✗</span>
+            <span class="text-gray-400">Fichiers limités à 10MB</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-gray-300 text-xl font-bold">✗</span>
+            <span class="text-gray-400">Support par email</span>
+          </li>
         </ul>
-        <button class="w-full bg-gray-300 text-gray-800 py-2 rounded-lg cursor-not-allowed">
+        <button class="w-full bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold cursor-default">
           Plan actuel
         </button>
       </div>
 
-      <div class="bg-white rounded-lg border-2 border-blue-600 p-8 text-center relative">
-        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
-          Populaire
+      <div class="bg-gradient-to-br from-blue-600 to-cyan-600 rounded-2xl p-8 text-center relative transform scale-105 shadow-2xl">
+        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg animate-pulse">
+          🔥 OFFRE LANCEMENT -50%
         </div>
-        <h3 class="text-2xl font-bold mb-4">Mensuel</h3>
-        <p class="text-4xl font-bold text-blue-600 mb-1">4,99€</p>
-        <p class="text-gray-600 mb-8">/mois</p>
-        <ul class="text-left space-y-3 mb-8 text-sm text-gray-700">
-          <li>✓ 50 conversions/mois</li>
-          <li>✓ Tous les formats</li>
-          <li>✓ Fichiers jusqu'à 100MB</li>
-          <li>✓ Support standard</li>
+        <h3 class="text-3xl font-bold mb-4 text-white">Mensuel</h3>
+        <div class="mb-6">
+          <div class="flex items-center justify-center gap-3 mb-1">
+            <p class="text-5xl font-bold text-white">2,49€</p>
+            <p class="text-2xl text-blue-200 line-through">4,99€</p>
+          </div>
+          <p class="text-blue-100 text-sm">/mois le 1er mois</p>
+          <p class="text-xs text-blue-200 mt-2">puis 4,99€/mois</p>
+        </div>
+        <ul class="text-left space-y-4 mb-8 text-white">
+          <li class="flex items-start gap-3">
+            <span class="text-yellow-300 text-xl font-bold">✓</span>
+            <span><strong>50 conversions</strong>/mois</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-yellow-300 text-xl font-bold">✓</span>
+            <span>Tous les formats premium</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-yellow-300 text-xl font-bold">✓</span>
+            <span>Fichiers jusqu'à <strong>100MB</strong></span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-yellow-300 text-xl font-bold">✓</span>
+            <span>Support prioritaire 24/7</span>
+          </li>
         </ul>
-        <button class="subscribeBtn w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition" data-plan="monthly">
-          Choisir ce plan
+        <button class="subscribeBtn w-full bg-white text-blue-600 py-4 rounded-lg font-bold hover:bg-gray-100 transition shadow-lg text-lg" data-plan="monthly">
+          Commencer maintenant
         </button>
+        <p class="text-xs text-blue-100 mt-3">Sans engagement - Résiliez à tout moment</p>
       </div>
 
-      <div class="bg-white rounded-lg border border-gray-200 p-8 text-center">
-        <h3 class="text-2xl font-bold mb-4">Annuel</h3>
-        <p class="text-4xl font-bold text-blue-600 mb-1">49,99€</p>
-        <p class="text-gray-600 mb-8">/an</p>
-        <p class="text-xs text-green-600 font-semibold mb-8">Économisez 10€/an</p>
-        <ul class="text-left space-y-3 mb-8 text-sm text-gray-700">
-          <li>✓ Conversions illimitées</li>
-          <li>✓ Tous les formats</li>
-          <li>✓ Fichiers jusqu'à 500MB</li>
-          <li>✓ Support prioritaire</li>
+      <div class="bg-white rounded-2xl border-2 border-blue-300 p-8 text-center hover:shadow-xl transition-shadow">
+        <div class="inline-block bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold mb-4">
+          MEILLEURE VALEUR
+        </div>
+        <h3 class="text-3xl font-bold mb-4">Annuel</h3>
+        <p class="text-5xl font-bold text-blue-600 mb-2">49,99€</p>
+        <p class="text-gray-500 mb-1">/an</p>
+        <div class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold mb-6">
+          Économisez 10€/an
+        </div>
+        <ul class="text-left space-y-4 mb-8 text-gray-700">
+          <li class="flex items-start gap-3">
+            <span class="text-blue-500 text-xl font-bold">✓</span>
+            <span><strong>Conversions illimitées</strong></span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-blue-500 text-xl font-bold">✓</span>
+            <span>Tous les formats premium</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-blue-500 text-xl font-bold">✓</span>
+            <span>Fichiers jusqu'à <strong>500MB</strong></span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-blue-500 text-xl font-bold">✓</span>
+            <span>Support VIP prioritaire</span>
+          </li>
         </ul>
-        <button class="subscribeBtn w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition" data-plan="yearly">
+        <button class="subscribeBtn w-full bg-blue-600 text-white py-4 rounded-lg font-bold hover:bg-blue-700 transition" data-plan="yearly">
           Choisir ce plan
         </button>
       </div>
@@ -162,13 +278,18 @@ document.addEventListener("DOMContentLoaded", function () {
   const dropZone = document.getElementById("dropZone");
   const successBox = document.getElementById("successBox");
   const errorBox = document.getElementById("errorBox");
+  const progressBox = document.getElementById("progressBox");
   const downloadLink = document.getElementById("downloadLink");
   const conversionCount = document.getElementById("conversionCount");
   const limitReachedModal = document.getElementById("limitReachedModal");
   const closeModal = document.getElementById("closeModal");
   const subscribeButtons = document.querySelectorAll(".subscribeBtn");
+  const convertBtn = document.getElementById("convertBtn");
+  const convertBtnText = document.getElementById("convertBtnText");
 
-  let conversionsLeft = parseInt(localStorage.getItem("conversionsLeft")) || 3;
+  let conversionsLeft = parseInt(localStorage.getItem("conversionsLeft")) || 15;
+  let isConverting = false;
+
   updateConversionDisplay();
 
   function updateConversionDisplay() {
@@ -265,8 +386,13 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    if (isConverting) {
+      return;
+    }
+
     successBox.classList.add("hidden");
     errorBox.classList.add("hidden");
+    progressBox.classList.add("hidden");
 
     const file = fileInput.files[0];
     if (!file) {
@@ -275,32 +401,77 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("file", file);
+    isConverting = true;
+    convertBtn.disabled = true;
+
+    // Ajouter le spinner au bouton
+    convertBtnText.innerHTML = '<div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white inline-block mr-2"></div>Conversion en cours...';
+
+    // Afficher l'indicateur de progression
+    progressBox.classList.remove("hidden");
 
     try {
-      const res = await fetch("/convert", {
-        method: "POST",
-        body: formData
+      // Convertir le fichier en base64
+      const reader = new FileReader();
+      const fileDataPromise = new Promise((resolve, reject) => {
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
       });
 
-      if (!res.ok) throw new Error("Erreur de conversion");
+      const fileData = await fileDataPromise;
 
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
+      // Déterminer le type de conversion basé sur l'extension
+      const fileExt = file.name.split('.').pop().toLowerCase();
+      let conversionType = "word-to-pdf";
 
-      downloadLink.href = url;
-      downloadLink.download = file.name.replace(/\.[^/.]+$/, "") + ".pdf";
+      if (fileExt === "pdf") {
+        conversionType = "pdf-to-word";
+      }
+
+      // Appeler l'API Supabase
+      const apiUrl = `https://czcishrmspaaidejlrup.supabase.co/functions/v1/convert-file`;
+
+      const res = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6Y2lzaHJtc3BhYWlkZWpscnVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjE3MjksImV4cCI6MjA5MDQzNzcyOX0.3_MqOtHejW0u2JSMoenQ7y73tVsUPBQSWoEEMkmB_qk`
+        },
+        body: JSON.stringify({
+          fileName: file.name,
+          fileData: fileData,
+          conversionType: conversionType
+        })
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Erreur de conversion");
+      }
+
+      const result = await res.json();
+
+      // Créer un lien de téléchargement
+      downloadLink.href = result.fileData;
+      downloadLink.download = result.fileName;
 
       conversionsLeft--;
       updateConversionDisplay();
 
+      // Masquer la progression et afficher le succès
+      progressBox.classList.add("hidden");
       successBox.classList.remove("hidden");
       hideFilePreview();
 
     } catch (err) {
+      progressBox.classList.add("hidden");
       errorBox.classList.remove("hidden");
       errorBox.textContent = "Erreur de conversion : " + err.message;
+    } finally {
+      isConverting = false;
+      convertBtn.disabled = false;
+      convertBtnText.innerHTML = 'Convertir';
     }
   });
 });
