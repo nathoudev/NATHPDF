@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nath PDF — Convertissez vos fichiers en PDF</title>
+  <meta
+    name="description"
+    content="Convertissez rapidement vos documents Word, Excel, PowerPoint, images et fichiers texte en PDF."
+  />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-white text-slate-900 antialiased">
+
+  <!-- Header -->
+  <header class="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+      <a href="/" class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-600 text-xl text-white shadow-sm">
+          📄
+        </div>
+        <div>
+          <div class="text-xl font-extrabold leading-none">Nath PDF</div>
+          <div class="mt-1 text-xs text-slate-500">Conversion simple et rapide</div>
+        </div>
+      </a>
+
+      <nav class="hidden items-center gap-7 text-sm md:flex">
+        <a href="#converter" class="text-slate-600 transition hover:text-slate-900">Convertir</a>
+        <a href="#features" class="text-slate-600 transition hover:text-slate-900">Fonctionnalités</a>
+        <a href="#pricing" class="text-slate-600 transition hover:text-slate-900">Tarifs</a>
+        <a
+          href="https://buy.stripe.com/9B66oHbZp2IO4Ng0KTaMU02"
+          class="rounded-xl bg-blue-600 px-5 py-2.5 font-semibold text-white transition hover:bg-blue-700"
+        >
+          Passer Premium
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="pt-24">
+
+    <!-- Hero -->
+    <section class="relative overflow-hidden">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-blue-50 via-white to-white"></div>
+
+      <div class="mx-auto max-w-7xl px-6 py-16 md:py-24">
+        <div class="mx-auto max-w-4xl text-center">
+          <a
+            href="https://buy.stripe.com/9B66oHbZp2IO4Ng0KTaMU02"
+            class="inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-4 py-2 text-sm font-semibold text-green-700 shadow-sm transition hover:bg-green-100"
+          >
+            🎉 Offre de lancement : premier mois à 2,49 €
+          </a>
+
+          <h1 class="mt-7 text-5xl font-black tracking-tight text-slate-950 md:text-7xl">
+            Convertissez vos fichiers en
+            <span class="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+              PDF en quelques secondes
+            </span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600 md:text-xl">
+            Téléversez votre document, lancez la conversion et récupérez immédiatement votre PDF.
+            Sans inscription pour commencer.
+          </p>
+
+          <div class="mt-8 flex flex-wrap justify-center gap-3 text-sm">
+            <span class="rounded-full bg-white px-4 py-2 shadow-sm ring-1 ring-slate-200">⚡ Conversion rapide</span>
+            <span class="rounded-full bg-white px-4 py-2 shadow-sm ring-1 ring-slate-200">🔒 Traitement sécurisé</span>
+            <span class="rounded-full bg-white px-4 py-2 shadow-sm ring-1 ring-slate-200">📄 Sortie PDF propre</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Converter -->
+    <section id="converter" class="mx-auto max-w-4xl px-6 pb-20">
+      <div class="relative">
+        <div class="absolute inset-0 -z-10 rotate-1 rounded-[2rem] bg-gradient-to-r from-blue-100 to-cyan-100"></div>
+
+        <div class="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-2xl md:p-10">
+          <div class="mb-7 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p class="text-sm font-semibold uppercase tracking-wider text-blue-600">Convertisseur</p>
+              <h2 class="mt-1 text-3xl font-bold">Déposez votre fichier</h2>
+            </div>
+            <p class="text-sm text-slate-500">3 conversions gratuites pour découvrir le service</p>
+          </div>
+
+          <form id="convertForm">
+            <label
+              id="dropZone"
+              for="fileInput"
+              class="block cursor-pointer rounded-3xl border-2 border-dashed border-slate-300 bg-slate-50 p-10 text-center transition hover:border-blue-400 hover:bg-blue-50"
+            >
+              <div id="dropZoneContent">
+                <div class="text-6xl">⬆️</div>
+                <p class="mt-4 text-lg font-bold text-slate-800">
+                  Glissez votre fichier ici ou cliquez pour sélectionner
+                </p>
+                <p class="mt-2 text-sm text-slate-500">
+                  Word, Excel, PowerPoint, TXT, JPG, PNG et autres formats compatibles
+                </p>
+              </div>
+
+              <div id="filePreview" class="hidden">
+                <div class="text-6xl">📄</div>
+                <p id="fileName" class="mt-4 break-all text-lg font-bold text-slate-800"></p>
+                <p id="fileSize" class="mt-2 text-sm text-slate-500"></p>
+                <button
+                  type="button"
+                  id="removeFile"
+                  class="mt-5 rounded-xl bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-100"
+                >
+                  Supprimer le fichier
+                </button>
+              </div>
+
+              <input
+                id="fileInput"
+                name="file"
+                type="file"
+                class="hidden"
+                accept=".doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.jpg,.jpeg,.png,.odt,.ods,.odp"
+              />
+            </label>
+
+            <button
+              id="convertBtn"
+              type="submit"
+              class="mt-5 flex w-full items-center justify-center rounded-2xl bg-blue-600 px-6 py-4 text-lg font-bold text-white shadow-lg transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <span id="convertBtnText">Convertir en PDF</span>
+            </button>
+          </form>
+
+          <div id="progressBox" class="mt-5 hidden rounded-2xl border border-blue-200 bg-blue-50 p-5">
+            <div class="flex items-center justify-between text-sm font-medium text-blue-700">
+              <span>Conversion en cours…</span>
+              <span>Veuillez patienter</span>
+            </div>
+            <div class="mt-3 h-2 overflow-hidden rounded-full bg-blue-100">
+              <div class="h-full w-full animate-pulse rounded-full bg-blue-600"></div>
+            </div>
+          </div>
+
+          <div id="successBox" class="mt-5 hidden rounded-2xl border border-green-200 bg-green-50 p-5">
+            <p class="font-bold text-green-800">Conversion réussie ✅</p>
+            <p class="mt-1 text-sm text-green-700">Votre PDF est prêt.</p>
+            <a
+              id="downloadLink"
+              href="#"
+              download
+              class="mt-4 inline-flex rounded-xl bg-green-600 px-5 py-3 font-semibold text-white transition hover:bg-green-700"
+            >
+              Télécharger le PDF
+            </a>
+          </div>
+
+          <div id="errorBox" class="mt-5 hidden rounded-2xl border border-red-200 bg-red-50 p-5 text-red-800"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="bg-slate-50 py-20">
+      <div class="mx-auto max-w-7xl px-6">
+        <div class="mx-auto max-w-3xl text-center">
+          <p class="text-sm font-semibold uppercase tracking-wider text-blue-600">Pourquoi Nath PDF ?</p>
+          <h2 class="mt-2 text-4xl font-black tracking-tight md:text-5xl">
+            Une conversion simple, sans friction
+          </h2>
+          <p class="mt-4 text-lg text-slate-600">
+            Tout ce qu’il faut pour transformer rapidement vos documents en PDF.
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-6 md:grid-cols-3">
+          <article class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100 text-3xl">⚡</div>
+            <h3 class="mt-6 text-2xl font-bold">Rapide</h3>
+            <p class="mt-3 leading-7 text-slate-600">
+              Les conversions sont traitées directement par votre serveur FastAPI et LibreOffice.
+            </p>
+          </article>
+
+          <article class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-green-100 text-3xl">🔒</div>
+            <h3 class="mt-6 text-2xl font-bold">Confidentiel</h3>
+            <p class="mt-3 leading-7 text-slate-600">
+              Les fichiers sont utilisés uniquement pour produire le PDF demandé.
+            </p>
+          </article>
+
+          <article class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-100 text-3xl">📄</div>
+            <h3 class="mt-6 text-2xl font-bold">Pratique</h3>
+            <p class="mt-3 leading-7 text-slate-600">
+              Aucun logiciel à installer : tout se fait directement depuis le navigateur.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-20">
+      <div class="mx-auto max-w-7xl px-6">
+        <div class="text-center">
+          <p class="text-sm font-semibold uppercase tracking-wider text-blue-600">Tarifs</p>
+          <h2 class="mt-2 text-4xl font-black tracking-tight md:text-5xl">Des offres claires</h2>
+          <p class="mt-4 text-lg text-slate-600">Commencez gratuitement puis passez Premium selon vos besoins.</p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-6xl gap-8 lg:grid-cols-3">
+
+          <article class="rounded-3xl border-2 border-slate-200 bg-white p-8">
+            <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-700">DÉCOUVERTE</span>
+            <h3 class="mt-5 text-3xl font-bold">Gratuit</h3>
+            <div class="mt-4 text-5xl font-black">0 €</div>
+            <p class="mt-2 text-slate-500">Pour tester le service</p>
+
+            <ul class="mt-8 space-y-4 text-slate-700">
+              <li>✓ 3 conversions gratuites</li>
+              <li>✓ Formats bureautiques courants</li>
+              <li>✓ Téléchargement immédiat</li>
+            </ul>
+
+            <a
+              href="#converter"
+              class="mt-8 block rounded-2xl bg-slate-100 px-5 py-4 text-center font-bold text-slate-800 transition hover:bg-slate-200"
+            >
+              Essayer gratuitement
+            </a>
+          </article>
+
+          <article class="relative scale-[1.02] rounded-3xl bg-gradient-to-br from-blue-600 to-cyan-600 p-8 text-white shadow-2xl">
+            <span class="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-yellow-400 px-4 py-2 text-xs font-black text-yellow-950 shadow">
+              OFFRE DE LANCEMENT
+            </span>
+
+            <h3 class="mt-5 text-3xl font-bold">Mensuel</h3>
+            <div class="mt-4 flex items-end gap-3">
+              <span class="text-5xl font-black">2,49 €</span>
+              <span class="pb-1 text-lg text-blue-100 line-through">4,99 €</span>
+            </div>
+            <p class="mt-2 text-blue-100">Le premier mois, puis 4,99 €/mois</p>
+
+            <ul class="mt-8 space-y-4">
+              <li>✓ 50 conversions par mois</li>
+              <li>✓ Priorité de traitement</li>
+              <li>✓ Support par email</li>
+            </ul>
+
+            <a
+              href="https://buy.stripe.com/9B66oHbZp2IO4Ng0KTaMU02"
+              class="mt-8 block rounded-2xl bg-white px-5 py-4 text-center text-lg font-black text-blue-700 transition hover:bg-blue-50"
+            >
+              Choisir le plan mensuel
+            </a>
+          </article>
+
+          <article class="rounded-3xl border-2 border-blue-200 bg-white p-8">
+            <span class="rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-700">MEILLEURE VALEUR</span>
+            <h3 class="mt-5 text-3xl font-bold">Annuel</h3>
+            <div class="mt-4 text-5xl font-black text-blue-600">49,99 €</div>
+            <p class="mt-2 text-slate-500">Par an</p>
+
+            <ul class="mt-8 space-y-4 text-slate-700">
+              <li>✓ Conversions illimitées</li>
+              <li>✓ Priorité de traitement</li>
+              <li>✓ Support prioritaire</li>
+            </ul>
+
+            <a
+              href="https://buy.stripe.com/14A3cve7x2IO5RkbpxaMU03"
+              class="mt-8 block rounded-2xl bg-blue-600 px-5 py-4 text-center text-lg font-black text-white transition hover:bg-blue-700"
+            >
+              Choisir le plan annuel
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="bg-gradient-to-br from-blue-600 to-blue-800 py-20 text-white">
+      <div class="mx-auto max-w-4xl px-6 text-center">
+        <h2 class="text-4xl font-black md:text-5xl">Prêt à convertir votre premier fichier ?</h2>
+        <p class="mt-5 text-lg text-blue-100">
+          Testez Nath PDF gratuitement, sans inscription.
+        </p>
+        <a
+          href="#converter"
+          class="mt-8 inline-flex rounded-2xl bg-white px-7 py-4 text-lg font-black text-blue-700 shadow-xl transition hover:scale-105 hover:bg-blue-50"
+        >
+          Commencer maintenant
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-950 py-12 text-slate-400">
+    <div class="mx-auto grid max-w-7xl gap-10 px-6 md:grid-cols-4">
+      <div>
+        <div class="text-xl font-bold text-white">Nath PDF</div>
+        <p class="mt-3 text-sm leading-6">
+          Conversion de documents en PDF, directement depuis votre navigateur.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-semibold text-white">Produit</h3>
+        <div class="mt-4 space-y-2 text-sm">
+          <a href="#converter" class="block hover:text-white">Convertir</a>
+          <a href="#features" class="block hover:text-white">Fonctionnalités</a>
+          <a href="#pricing" class="block hover:text-white">Tarifs</a>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="font-semibold text-white">Légal</h3>
+        <div class="mt-4 space-y-2 text-sm">
+          <a href="/static/privacy.html" class="block hover:text-white">Confidentialité</a>
+          <a href="/static/terms.html" class="block hover:text-white">Conditions d’utilisation</a>
+          <a href="/static/legal.html" class="block hover:text-white">Mentions légales</a>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="font-semibold text-white">Contact</h3>
+        <a href="mailto:contact@nath-pdf.com" class="mt-4 block text-sm hover:text-white">
+          contact@nath-pdf.com
+        </a>
+      </div>
+    </div>
+
+    <div class="mx-auto mt-10 max-w-7xl border-t border-slate-800 px-6 pt-8 text-center text-sm">
+      © 2026 Nath PDF. Tous droits réservés.
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("convertForm");
+      const fileInput = document.getElementById("fileInput");
+      const dropZone = document.getElementById("dropZone");
+      const dropZoneContent = document.getElementById("dropZoneContent");
+      const filePreview = document.getElementById("filePreview");
+      const fileName = document.getElementById("fileName");
+      const fileSize = document.getElementById("fileSize");
+      const removeFileBtn = document.getElementById("removeFile");
+      const convertBtn = document.getElementById("convertBtn");
+      const convertBtnText = document.getElementById("convertBtnText");
+      const progressBox = document.getElementById("progressBox");
+      const successBox = document.getElementById("successBox");
+      const errorBox = document.getElementById("errorBox");
+      const downloadLink = document.getElementById("downloadLink");
+
+      let currentDownloadUrl = null;
+
+      function showFilePreview(file) {
+        fileName.textContent = file.name;
+        fileSize.textContent = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+        dropZoneContent.classList.add("hidden");
+        filePreview.classList.remove("hidden");
+      }
+
+      function clearSelectedFile() {
+        fileInput.value = "";
+        dropZoneContent.classList.remove("hidden");
+        filePreview.classList.add("hidden");
+      }
+
+      removeFileBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        clearSelectedFile();
+      });
+
+      fileInput.addEventListener("change", () => {
+        if (fileInput.files.length > 0) {
+          showFilePreview(fileInput.files[0]);
+        }
+      });
+
+      ["dragenter", "dragover"].forEach((eventName) => {
+        dropZone.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          dropZone.classList.add("border-blue-500", "bg-blue-50");
+        });
+      });
+
+      ["dragleave", "drop"].forEach((eventName) => {
+        dropZone.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          dropZone.classList.remove("border-blue-500", "bg-blue-50");
+        });
+      });
+
+      dropZone.addEventListener("drop", (event) => {
+        const files = event.dataTransfer.files;
+        if (!files.length) return;
+
+        const transfer = new DataTransfer();
+        transfer.items.add(files[0]);
+        fileInput.files = transfer.files;
+        showFilePreview(files[0]);
+      });
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        successBox.classList.add("hidden");
+        errorBox.classList.add("hidden");
+        progressBox.classList.add("hidden");
+
+        const file = fileInput.files[0];
+
+        if (!file) {
+          errorBox.textContent = "Veuillez sélectionner un fichier.";
+          errorBox.classList.remove("hidden");
+          return;
+        }
+
+        convertBtn.disabled = true;
+        convertBtnText.innerHTML =
+          '<span class="mr-2 inline-block h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></span>Conversion en cours…';
+        progressBox.classList.remove("hidden");
+
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const response = await fetch("/convert", {
+            method: "POST",
+            body: formData
+          });
+
+          if (!response.ok) {
+            let message = "La conversion a échoué.";
+
+            try {
+              const errorPayload = await response.json();
+              message = errorPayload.detail || message;
+            } catch {
+              // La réponse n'était pas du JSON.
+            }
+
+            throw new Error(message);
+          }
+
+          const pdfBlob = await response.blob();
+
+          if (currentDownloadUrl) {
+            URL.revokeObjectURL(currentDownloadUrl);
+          }
+
+          currentDownloadUrl = URL.createObjectURL(pdfBlob);
+
+          const baseName = file.name.replace(/\.[^/.]+$/, "");
+          downloadLink.href = currentDownloadUrl;
+          downloadLink.download = `${baseName}.pdf`;
+
+          progressBox.classList.add("hidden");
+          successBox.classList.remove("hidden");
+
+          // Téléchargement automatique.
+          const automaticDownload = document.createElement("a");
+          automaticDownload.href = currentDownloadUrl;
+          automaticDownload.download = `${baseName}.pdf`;
+          document.body.appendChild(automaticDownload);
+          automaticDownload.click();
+          automaticDownload.remove();
+
+        } catch (error) {
+          progressBox.classList.add("hidden");
+          errorBox.textContent = `Erreur de conversion : ${error.message}`;
+          errorBox.classList.remove("hidden");
+
+        } finally {
+          convertBtn.disabled = false;
+          convertBtnText.textContent = "Convertir en PDF";
+        }
+      });
+
+      window.addEventListener("beforeunload", () => {
+        if (currentDownloadUrl) {
+          URL.revokeObjectURL(currentDownloadUrl);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

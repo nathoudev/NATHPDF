@@ -5,22 +5,20 @@ import subprocess
 import tempfile
 from pathlib import Path
 import shutil
-from billing.routes_checkout import router as checkout_router
+
 import os
 from fastapi import FastAPI, UploadFile, File, HTTPException, Depends
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from billing.mock_stripe import router as mock_stripe_router
 from billing.routes_checkout import router as checkout_router
-from billing.mock_stripe import router as mock_stripe_router
 from billing.service_api_key import verify_api_key
 from billing.database import get_db, Base, engine
 from fastapi.staticfiles import StaticFiles
 from billing.routes_webhook import router as webhook_router
 from fastapi.responses import RedirectResponse
 from billing.routes_account import router as account_router
-from billing.routes_paypal import router as paypal_router
-from billing.routes_public import router as public_router
+
 from semitic import router as semitic_router
 
 ENV = os.getenv("ENV", "dev")
@@ -38,8 +36,8 @@ app.include_router(checkout_router)
 app.include_router(mock_stripe_router)
 app.include_router(webhook_router)
 app.include_router(account_router)
-app.include_router(paypal_router)
-app.include_router(public_router)
+
+
 app.include_router(semitic_router)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -136,7 +134,7 @@ async def convert_endpoint(
 
 @app.get("/")
 async def health():
-    return FileResponse("static/index3.html")
+    return FileResponse("static/index4.html")
 
 
 
@@ -151,23 +149,3 @@ async def get_semitic_page():
 
 
 
-@app.post("/convert/free", response_class=FileResponse)
-async def convert_free_endpoint(
-    file: UploadFile = File(...),
-):
-    if not file.filename:
-        raise HTTPException(status_code=400, detail="Aucun fichier fourni")
-
-    try:
-        pdf_path = convert_to_pdf(file)
-
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-    return FileResponse(
-        path=pdf_path,
-        filename=pdf_path.name,
-        media_type="application/pdf",
-    )
